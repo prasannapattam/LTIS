@@ -1,4 +1,5 @@
-﻿using LTIS.Models;
+﻿using LTIS.Lib.Act;
+using LTIS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace LTIS.Controllers
     {
         public string Post([FromBody] ContactModel model)
         {
-            return "success Body - " + model.FirstName + " - " + model.LastName;
+            ContactIntegration.InsertContact(model);
+            return "success";
         }
     }
 }
