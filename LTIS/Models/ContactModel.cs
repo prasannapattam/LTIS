@@ -7,6 +7,7 @@ namespace LTIS.Models
 {
     public class ContactModel
     {
+        public int ContactID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Organization { get; set; }
@@ -19,5 +20,7 @@ namespace LTIS.Models
         public string Phone { get; set; }
 
         public string Notes { get; set; }
+
+        public bool DuplicateInd { get; set; }
     }
 }

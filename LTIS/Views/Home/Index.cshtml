@@ -1,0 +1,60 @@
+﻿@model List<LTIS.Models.ContactModel>
+@{
+    ViewBag.Title = "Contacts";
+}
+
+<h3>Contact Integration</h3>
+
+@using (Html.BeginForm())
+{
+    <table class="table-display">
+        <thead>
+            <tr>
+                <th colspan="4">&nbsp;</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Organization</th>
+                <th>Email Address</th>
+                <th>Phone</th>
+                <th>Street Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model)
+            {
+                <tr>
+                    <td class="table-radio">
+                        <input type="radio" name="@contact.ContactID" value="1" id="@(contact.ContactID.ToString() + "1")" checked="checked"><label for="@(contact.ContactID.ToString() + "1")">Import</label>
+                    </td>
+                    <td class="table-radio">
+                                            @if (contact.DuplicateInd)
+                        {
+                            <input type="radio" name="@contact.ContactID" value="2" id="@(contact.ContactID.ToString() + "2")" checked="checked"><label for="@(contact.ContactID.ToString() + "2")">Update</label>
+                        }
+                    </td>
+                    <td class="table-radio">
+                        <input type="radio" name="@contact.ContactID" value="3" id="@(contact.ContactID.ToString() + "3")"><label for="@(contact.ContactID.ToString() + "3")">Remove</label>
+                    </td>
+                    <td class="table-radio">
+                        <input type="radio" name="@contact.ContactID" value="4" id="@(contact.ContactID.ToString() + "4")"><label for="@(contact.ContactID.ToString() + "4")">Later</label>
+                    </td>
+                    <td>@contact.FirstName</td>
+                    <td>@contact.LastName</td>
+                    <td>@contact.Organization</td>
+                    <td>@contact.EmailAddress</td>
+                    <td>@contact.Phone</td>
+                    <td>@contact.StreetAddress</td>
+                    <td>@contact.City</td>
+                    <td>@contact.State</td>
+                    <td>@contact.Zip</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <input type="submit" value="Update ACT" />
+}
+
