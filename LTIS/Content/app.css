@@ -30,11 +30,8 @@ div.header-row{
 body.main
 {
     font-size: 9pt !important;
-    font-family: Verdana, Geneva, sans-serif;
     background-color: #ffffff;
-    background-size: 100%;
-    max-width:1000px;
-   
+    background-size: 100%;  
 }
 
 p
@@ -755,7 +752,6 @@ select:disabled{
 
 .table-display{
     width: 100%;
-    max-width: 1000px;
     border: 1px solid black;
     border-right: 1px solid black;
 }
@@ -773,9 +769,14 @@ select:disabled{
     white-space: nowrap;
 }
 
+.radio-margin{
+    margin-left: 0.1rem !important;
+    margin-right: 0.1rem !important;
+}
 
-
-
+.success{
+    color: blue;
+}
 
 
 

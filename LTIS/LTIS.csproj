@@ -301,6 +301,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Lib\Act\ACTConnection.cs" />
     <Compile Include="Lib\Act\ContactIntegration.cs" />
     <Compile Include="Lib\Domain\ContactDomain.cs" />
     <Compile Include="Lib\Repository\Contact.cs">
@@ -323,7 +324,7 @@
     </Compile>
     <Compile Include="Lib\Repository\LTRepository.cs" />
     <Compile Include="Models\ContactModel.cs" />
-    <Compile Include="Models\ContactUpdateOption.cs" />
+    <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

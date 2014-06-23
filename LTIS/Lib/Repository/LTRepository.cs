@@ -25,18 +25,19 @@ namespace LTIS.Lib.Repository
                 contact.Phone = model.Phone;
                 contact.Notes = model.Notes;
                 contact.DuplicateInd = duplicateInd;
+                contact.CreateDate = DateTime.Now;
                 db.Contacts.Add(contact);
                 db.SaveChanges();
             }
         }
 
-        public static List<ContactModel> ContactGetAll()
+        public static List<ContactViewModel> ContactGetAll()
         {
             using (var db = new LTISEntities())
             {
                 var query = from contact in db.Contacts
                             orderby contact.CreateDate
-                            select new ContactModel
+                            select new ContactViewModel
                             {
                                 ContactID = contact.ContactID,
                                 FirstName = contact.FirstName,
@@ -50,7 +51,8 @@ namespace LTIS.Lib.Repository
                                 Zip = contact.Zip,
                                 Phone = contact.Phone,
                                 Notes = contact.Notes,
-                                DuplicateInd = contact.DuplicateInd
+                                DuplicateInd = contact.DuplicateInd,
+                                CreateDate = contact.CreateDate
                             };
 
                 return query.ToList();
