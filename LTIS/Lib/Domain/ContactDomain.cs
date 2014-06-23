@@ -29,7 +29,8 @@ namespace LTIS.Lib.Domain
             int[] contactids = (from c in contacts
                                  where c.SelectedOption != ContactOption.Later
                                  select c.ContactID).ToArray();
-            LTRepository.ContactDelete(contactids);
+            if (contactids.Length > 0)
+                LTRepository.ContactDelete(contactids);
         }
     }
 }

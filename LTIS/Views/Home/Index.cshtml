@@ -20,6 +20,7 @@
             <th>City</th>
             <th>State</th>
             <th>Zip</th>
+            <th>Notes</th>
             <th>Create Date</th>
         </tr>
     </thead>
@@ -61,6 +62,10 @@
                 <td>@Model[index].City</td>
                 <td>@Model[index].State</td>
                 <td>@Model[index].Zip</td>
+                <td>
+                    <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)')">Notes</a>
+                    <div id="@("notes" + Model[index].ContactID)" style="display:none">@Model[index].Notes</div>
+                 </td>
                 <td>@Model[index].CreateDate</td>
             </tr>
         }
@@ -70,3 +75,19 @@
     <input type="submit" value="Update ACT" />
 }
 
+<script>
+    function loadNotesWindow(id, name) {
+        var notesWindow = $("#" + id);
+        if (!notesWindow.data("kendoWindow")) {
+            notesWindow.kendoWindow({
+                width: "400px",
+                height: "200px",
+                title: "Notes for " + name
+            });
+        }
+
+        notesWindow.data("kendoWindow").open().center();
+
+        return false;
+    }
+</script>
