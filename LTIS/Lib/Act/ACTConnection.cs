@@ -15,8 +15,8 @@ namespace LTIS.Lib.Act
             string actPad = ConfigurationManager.AppSettings["ActPad"];
             string actUserName = ConfigurationManager.AppSettings["ActUserName"];
             string actPassword = ConfigurationManager.AppSettings["ActPassword"];
-            ActFramework ACTFM = new ActFramework();
-            ACTFM.LogOn(actPad, actUserName, actPassword);
+            fm = new ActFramework();
+            fm.LogOn(actPad, actUserName, actPassword);
             
         }
 
