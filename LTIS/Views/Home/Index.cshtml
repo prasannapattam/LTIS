@@ -3,14 +3,15 @@
     ViewBag.Title = "Contacts";
 }
 
-<h3>Contact Integration</h3>
+<div class="text-center">
+    <h3>Contact Integration</h3>
+</div>
 <p class="success">@ViewBag.Message</p> 
 @using (Html.BeginForm())
 {
 <table class="table-display">
     <thead>
         <tr>
-            <th colspan="4">&nbsp;</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Organization</th>
@@ -22,34 +23,13 @@
             <th>Zip</th>
             <th>Notes</th>
             <th>Create Date</th>
+            <th colspan="4">Action</th>
         </tr>
     </thead>
     <tbody>
         @for(int index = 0; index < Model.Count; index++ )
         {
             <tr>
-                @foreach (var opt in Model[index].options)
-                {
-                    bool optChecked = opt.Key == 1;
-                    string optId = Model[index].ContactID.ToString() + "-" + opt.Key;
-                    object attributes;
-                    if ((opt.Key == 1 && !Model[index].DuplicateInd) || opt.Key == 2 && Model[index].DuplicateInd)
-                    {
-                        attributes = new { id = optId, Checked = "checked" };
-                    }
-                    else
-                    {
-                        attributes = new { id = optId };
-                    }
-                        
-                    <td class="table-radio">
-                        @if(opt.Key != 2 || Model[index].DuplicateInd)
-                        {
-                            @Html.RadioButtonFor(m => m[index].SelectedOption, opt.Key, attributes)<label for="@optId" class="radio-margin">@opt.Value</label> 
-                        }
-                    </td>
-                }
-
                 <td>
                     @Html.HiddenFor(m => m[index].ContactID)
                     @Model[index].FirstName
@@ -67,12 +47,36 @@
                     <div id="@("notes" + Model[index].ContactID)" style="display:none">@Model[index].Notes</div>
                  </td>
                 <td>@Model[index].CreateDate</td>
+                @foreach (var opt in Model[index].options)
+                {
+                    bool optChecked = opt.Key == 1;
+                    string optId = Model[index].ContactID.ToString() + "-" + opt.Key;
+                    object attributes;
+                    if ((opt.Key == 1 && !Model[index].DuplicateInd) || opt.Key == 2 && Model[index].DuplicateInd)
+                    {
+                        attributes = new { id = optId, Checked = "checked" };
+                    }
+                    else
+                    {
+                        attributes = new { id = optId };
+                    }
+
+                    <td class="table-radio">
+                        @if (opt.Key != 2 || Model[index].DuplicateInd)
+                        {
+                            @Html.RadioButtonFor(m => m[index].SelectedOption, opt.Key, attributes)<label for="@optId" class="radio-margin">@opt.Value</label>
+                        }
+                    </td>
+                }
+
             </tr>
         }
     </tbody>
 </table>
     <br />
-    <input type="submit" value="Update ACT" />
+    <div class="text-center">
+        <input type="submit" value="Update ACT" />
+    </div>
 }
 
 <script>

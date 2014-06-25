@@ -47,9 +47,6 @@ namespace LTIS.Lib.Act
                 //Contact actContact = ACTFM.Contacts.GetMyRecord(); 
                 Contact actContact = act.Framework.Contacts.CreateContact();
 
-                KeywordSearchContactQuery query = new KeywordSearchContactQuery();
-                
-
                 actContact.FullName = model.FirstName + " " + model.LastName;
                 actContact.Company = model.Organization;
                 actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
