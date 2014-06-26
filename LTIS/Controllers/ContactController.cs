@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 
 using LTIS.Lib.Repository;
+using LTIS.Lib.Domain;
 
 namespace LTIS.Controllers
 {
@@ -15,10 +16,8 @@ namespace LTIS.Controllers
     {
         public string Post([FromBody] ContactModel model)
         {
-            //ContactIntegration.InsertContact(model);
-
             //checking for duplicates
-            bool duplicateInd = false;
+            bool duplicateInd = ContactDomain.ContactExists(model.EmailAddress);
 
             //saving the contact to database
             LTRepository.ContactAdd(model, duplicateInd);

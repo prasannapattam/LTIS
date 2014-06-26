@@ -7,65 +7,85 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Act.Framework.SupplementalFiles;
 
 namespace LTIS.Lib.Act
 {
     public class ContactIntegration
     {
-        public static void InsertContact(ContactModel model)
+        public static void InsertContact(ContactModel model, ActFramework act)
         {
-            using (ACTConnection act = new ACTConnection())
+            //Contact actContact = ACTFM.Contacts.GetMyRecord(); 
+            Contact actContact = act.Contacts.CreateContact();
+            actContact.FullName = model.FirstName + " " + model.LastName;
+            actContact.Company = model.Organization;
+            actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
+            actContact.Fields["Contact.Address 1", false] = model.StreetAddress;
+            //actContact.Fields["Contact.Address 2", false] = model.Address2;
+            actContact.Fields["Contact.City", false] = model.City;
+            actContact.Fields["Contact.State", false] = model.State;
+            actContact.Fields["Contact.ZIP Code", false] = model.Zip;
+            actContact.Fields["Contact.Phone", false] = model.Phone;
+
+            actContact.Update();
+
+            if (model.Notes != null && model.Notes != "")
             {
-
-                //Contact actContact = ACTFM.Contacts.GetMyRecord(); 
-                Contact actContact = act.Framework.Contacts.CreateContact();
-                actContact.FullName = model.FirstName + " " + model.LastName;
-                actContact.Company = model.Organization;
-                actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
-                actContact.Fields["Contact.Address 1", false] = model.StreetAddress;
-                //actContact.Fields["Contact.Address 2", false] = model.Address2;
-                actContact.Fields["Contact.City", false] = model.City;
-                actContact.Fields["Contact.State", false] = model.State;
-                actContact.Fields["Contact.ZIP Code", false] = model.Zip;
-                actContact.Fields["Contact.Phone", false] = model.Phone;
-
-                actContact.Update();
-
-                if (model.Notes != null && model.Notes != "")
-                {
-                    NoteType noteType = new NoteType(SystemNoteType.Note);
-                    Note actNote = act.Framework.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
-                    actNote.Update();
-                }
+                NoteType noteType = new NoteType(SystemNoteType.Note);
+                Note actNote = act.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
+                actNote.Update();
             }
         }
-        public static void UpdateContact(ContactModel model)
+
+        public static void UpdateContact(ContactModel model, ActFramework act)
         {
-            using (ACTConnection act = new ACTConnection())
+            //getting the contact from email
+            Contact actContact = GetContactsFromEmail(model.EmailAddress, act)[0];
+
+            actContact.FullName = model.FirstName + " " + model.LastName;
+            actContact.Company = model.Organization;
+            actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
+            actContact.Fields["Contact.Address 1", false] = model.StreetAddress;
+            //actContact.Fields["Contact.Address 2", false] = model.Address2;
+            actContact.Fields["Contact.City", false] = model.City;
+            actContact.Fields["Contact.State", false] = model.State;
+            actContact.Fields["Contact.ZIP Code", false] = model.Zip;
+            actContact.Fields["Contact.Phone", false] = model.Phone;
+
+            actContact.Update();
+
+
+
+            if (model.Notes != null && model.Notes != "")
             {
+                NoteType noteType = new NoteType(SystemNoteType.Note);
+                Note actNote = act.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
 
-                //Contact actContact = ACTFM.Contacts.GetMyRecord(); 
-                Contact actContact = act.Framework.Contacts.CreateContact();
+//                    actNote.Attachment = act.Framework.SupplementalFileManager.CreateAttachment(AttachmentMate.Note, "", "", false);
+                    
 
-                actContact.FullName = model.FirstName + " " + model.LastName;
-                actContact.Company = model.Organization;
-                actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
-                actContact.Fields["Contact.Address 1", false] = model.StreetAddress;
-                //actContact.Fields["Contact.Address 2", false] = model.Address2;
-                actContact.Fields["Contact.City", false] = model.City;
-                actContact.Fields["Contact.State", false] = model.State;
-                actContact.Fields["Contact.ZIP Code", false] = model.Zip;
-                actContact.Fields["Contact.Phone", false] = model.Phone;
-
-                actContact.Update();
-
-                if (model.Notes != null && model.Notes != "")
-                {
-                    NoteType noteType = new NoteType(SystemNoteType.Note);
-                    Note actNote = act.Framework.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
-                    actNote.Update();
-                }
+                actNote.Update();
             }
         }
+
+        public static ContactList GetContactsFromEmail(string email, ActFramework act)
+        {
+            CriteriaColumn actColumn = act.Lookups.GetCriteriaColumn("TBL_CONTACT", "BUSINESS_EMAIL", true);
+            Criteria[] actCriteria = {
+                    new Criteria(LogicalOperator.End, 0, 0, actColumn, OperatorEnum.EqualTo, email)
+                };
+            
+            ContactLookup actLookup = act.Lookups.LookupContactsReplace(actCriteria, true, true);
+            ContactList actContacts = actLookup.GetContacts(null);
+
+            return actContacts;
+        }
+
     }
 }
+
+
+//getting contact by email address
+//http://community.act.com/t5/Act-Developer-s-Forum/Pull-contact-by-field-name/m-p/34034/highlight/true#M1419
+
+
