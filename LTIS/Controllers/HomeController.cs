@@ -18,6 +18,7 @@ namespace LTIS.Controllers
             ViewBag.Message = "";
             //getting all contacts
             var model = LTRepository.ContactGetAll();
+            
             return View(model);
         }
 

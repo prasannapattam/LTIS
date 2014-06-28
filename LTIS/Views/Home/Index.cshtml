@@ -22,6 +22,7 @@
             <th>State</th>
             <th>Zip</th>
             <th>Notes</th>
+            <th>Attachment</th>
             <th>Create Date</th>
             <th colspan="4">Action</th>
         </tr>
@@ -43,9 +44,18 @@
                 <td>@Model[index].State</td>
                 <td>@Model[index].Zip</td>
                 <td>
-                    <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)')">Notes</a>
-                    <div id="@("notes" + Model[index].ContactID)" style="display:none">@Model[index].Notes</div>
+                    <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Notes')">Notes</a>
+                    <div id="@("notes" + Model[index].ContactID)" style="display: none; white-space: pre;">@Model[index].Notes</div>
                  </td>
+                <td>
+                    @if (Model[index].AttachmentUrl != null)
+                    {
+                        <a href="#" onclick="return loadNotesWindow('@("notesimage" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Attachment')">Image</a>
+                        <div id="@("notesimage" + Model[index].ContactID)" style="display: none; white-space: pre;">
+                                <img src="@Url.Content("~/Data/" + Model[index].AttachmentUrl)" />
+                        </div>
+                    }
+                </td>
                 <td>@Model[index].CreateDate</td>
                 @foreach (var opt in Model[index].options)
                 {
@@ -80,13 +90,13 @@
 }
 
 <script>
-    function loadNotesWindow(id, name) {
+    function loadNotesWindow(id, name, type) {
         var notesWindow = $("#" + id);
         if (!notesWindow.data("kendoWindow")) {
             notesWindow.kendoWindow({
                 width: "400px",
-                height: "200px",
-                title: "Notes for " + name
+                height: "350px",
+                title: type + " for " + name
             });
         }
 

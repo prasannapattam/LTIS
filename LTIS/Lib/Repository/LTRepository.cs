@@ -52,6 +52,7 @@ namespace LTIS.Lib.Repository
                                 Zip = contact.Zip,
                                 Phone = contact.Phone,
                                 Notes = contact.Notes,
+                                AttachmentUrl = contact.AttachmentUrl,
                                 DuplicateInd = contact.DuplicateInd,
                                 CreateDate = contact.CreateDate
                             };
