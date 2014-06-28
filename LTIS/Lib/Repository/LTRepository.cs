@@ -25,6 +25,7 @@ namespace LTIS.Lib.Repository
                 contact.Phone = model.Phone;
                 contact.Notes = model.Notes;
                 contact.DuplicateInd = duplicateInd;
+                contact.AttachmentUrl = model.AttachmentUrl;
                 contact.CreateDate = DateTime.Now;
                 db.Contacts.Add(contact);
                 db.SaveChanges();

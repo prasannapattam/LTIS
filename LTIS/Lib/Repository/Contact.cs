@@ -28,5 +28,6 @@ namespace LTIS.Lib.Repository
         public string Notes { get; set; }
         public bool DuplicateInd { get; set; }
         public System.DateTime CreateDate { get; set; }
+        public string AttachmentUrl { get; set; }
     }
 }

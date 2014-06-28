@@ -23,6 +23,7 @@
           <Property Name="Notes" Type="varchar" MaxLength="7000" />
           <Property Name="DuplicateInd" Type="bit" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="AttachmentUrl" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityContainer Name="LTISModelStoreContainer">
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
@@ -49,6 +50,7 @@
           <Property Name="Notes" Type="String" MaxLength="7000" FixedLength="false" Unicode="false" />
           <Property Name="DuplicateInd" Type="Boolean" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AttachmentUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="LTISEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Contacts" EntityType="Self.Contact" />
@@ -62,6 +64,7 @@
           <EntitySetMapping Name="Contacts">
             <EntityTypeMapping TypeName="LTISModel.Contact">
               <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="AttachmentUrl" ColumnName="AttachmentUrl" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="DuplicateInd" ColumnName="DuplicateInd" />
                 <ScalarProperty Name="ContactID" ColumnName="ContactID" />
