@@ -58,6 +58,11 @@ namespace LTIS.Lib.Act
 
             if (model.Notes != null && model.Notes != "")
             {
+
+                //converting line breaks to what ACT understands
+
+                model.Notes = "{\\rtf1 " + model.Notes.Replace("\r\n", "\n").Replace("\n", "\\par\r\n") + "}";
+
                 NoteType noteType = new NoteType(SystemNoteType.Note);
                 Note actNote = act.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
 
@@ -83,9 +88,4 @@ namespace LTIS.Lib.Act
 
     }
 }
-
-
-//getting contact by email address
-//http://community.act.com/t5/Act-Developer-s-Forum/Pull-contact-by-field-name/m-p/34034/highlight/true#M1419
-
 
