@@ -55,20 +55,21 @@ namespace LTIS.Lib.Act
             actContact.Update();
 
 
-
-            if (model.Notes != null && model.Notes != "")
+            if (model.Notes != "" || model.AttachmentUrl != null)
             {
 
                 //converting line breaks to what ACT understands
-
-                model.Notes = "{\\rtf1 " + model.Notes.Replace("\r\n", "\n").Replace("\n", "\\par\r\n") + "}";
+                model.Notes = "{\\rtf1 " + model.Notes.Replace("\n", "\\par\r\n") + "}";
 
                 NoteType noteType = new NoteType(SystemNoteType.Note);
                 Note actNote = act.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
 
-//                    actNote.Attachment = act.Framework.SupplementalFileManager.CreateAttachment(AttachmentMate.Note, "", "", false);
+                if (model.AttachmentUrl != null)
+                {
+                    string attachmentUrl = HttpContext.Current.Server.MapPath("~/Data/" + model.AttachmentUrl);
+                    actNote.Attachment = act.SupplementalFileManager.CreateAttachment(AttachmentMate.Note, attachmentUrl, "Attachment", false);
+                }
                     
-
                 actNote.Update();
             }
         }

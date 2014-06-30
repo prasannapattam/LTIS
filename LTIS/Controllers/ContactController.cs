@@ -68,8 +68,8 @@ namespace LTIS.Controllers
             
 
             //checking for duplicates
-            //bool duplicateInd = ContactDomain.ContactExists(model.EmailAddress);
-            bool duplicateInd = false;
+            bool duplicateInd = ContactDomain.ContactExists(model.EmailAddress);
+            //bool duplicateInd = false;
 
             //saving the contact to database
             LTRepository.ContactAdd(model, duplicateInd);
