@@ -323,6 +323,7 @@
       <DependentUpon>LT.edmx</DependentUpon>
     </Compile>
     <Compile Include="Lib\Repository\LTRepository.cs" />
+    <Compile Include="Lib\Shared\Constants.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
