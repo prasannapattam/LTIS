@@ -21,5 +21,9 @@ namespace LTIS.Models
         public string Notes { get; set; }
         public string AttachmentUrl { get; set; }
 
+        public ContactOption Action { get; set; }
+        public string SalesRep { get; set; }
+        public string Task { get; set; }
+
     }
 }

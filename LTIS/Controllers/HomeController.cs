@@ -17,8 +17,7 @@ namespace LTIS.Controllers
         {
             ViewBag.Message = "";
             //getting all contacts
-            var model = LTRepository.ContactGetAll();
-            
+            var model = ContactDomain.GetUIContacts();            
             return View(model);
         }
 
@@ -29,7 +28,7 @@ namespace LTIS.Controllers
 
             ContactDomain.UpdateContacts(contacts);
 
-            var model = LTRepository.ContactGetAll();
+            var model = ContactDomain.GetUIContacts();
             return View(model);
         }
 	}

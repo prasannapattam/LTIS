@@ -1,4 +1,4 @@
-﻿@model List<LTIS.Models.ContactViewModel>
+﻿@model List<ContactViewModel>
 @{
     ViewBag.Title = "Contacts";
 }
@@ -24,7 +24,9 @@
             <th>Notes</th>
             <th>Attachment</th>
             <th>Create Date</th>
-            <th colspan="4">Action</th>
+            <th>Action</th>
+            <th>Sales Rep</th>
+            <th>Task</th>
         </tr>
     </thead>
     <tbody>
@@ -57,27 +59,15 @@
                     }
                 </td>
                 <td>@Model[index].CreateDate</td>
-                @foreach (var opt in Model[index].options)
-                {
-                    bool optChecked = opt.Key == 1;
-                    string optId = Model[index].ContactID.ToString() + "-" + opt.Key;
-                    object attributes;
-                    if ((opt.Key == 1 && !Model[index].DuplicateInd) || opt.Key == 2 && Model[index].DuplicateInd)
-                    {
-                        attributes = new { id = optId, Checked = "checked" };
-                    }
-                    else
-                    {
-                        attributes = new { id = optId };
-                    }
-
-                    <td class="table-radio">
-                        @if (opt.Key != 2 || Model[index].DuplicateInd)
-                        {
-                            @Html.RadioButtonFor(m => m[index].SelectedOption, opt.Key, attributes)<label for="@optId" class="radio-margin">@opt.Value</label>
-                        }
-                    </td>
-                }
+                <td>
+                    @Html.DropDownListFor(m => m[index].Action, Model[index].ActionOptions)
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m[index].SalesRep, Model[index].Users)
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m[index].Task, Model[index].ActivityTypes)
+                </td>
 
             </tr>
         }

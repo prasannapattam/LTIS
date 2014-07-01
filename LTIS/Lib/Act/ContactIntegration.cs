@@ -8,40 +8,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Act.Framework.SupplementalFiles;
+using Act.Framework.Activities;
+using LTIS.Lib.Shared;
 
 namespace LTIS.Lib.Act
 {
     public class ContactIntegration
     {
-        public static void InsertContact(ContactModel model, ActFramework act)
+        public static void CreateUpdateContact(ContactModel model, ActFramework act)
         {
-            //Contact actContact = ACTFM.Contacts.GetMyRecord(); 
-            Contact actContact = act.Contacts.CreateContact();
-            actContact.FullName = model.FirstName + " " + model.LastName;
-            actContact.Company = model.Organization;
-            actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
-            actContact.Fields["Contact.Address 1", false] = model.StreetAddress;
-            //actContact.Fields["Contact.Address 2", false] = model.Address2;
-            actContact.Fields["Contact.City", false] = model.City;
-            actContact.Fields["Contact.State", false] = model.State;
-            actContact.Fields["Contact.ZIP Code", false] = model.Zip;
-            actContact.Fields["Contact.Phone", false] = model.Phone;
+            Contact actContact = null;
 
-            actContact.Update();
-
-            if (model.Notes != null && model.Notes != "")
+            if (model.Action == ContactOption.Update)
             {
-                NoteType noteType = new NoteType(SystemNoteType.Note);
-                Note actNote = act.Notes.CreateNote(noteType, model.Notes, DateTime.Now, false, actContact);
-                actNote.Update();
+                //checking for the contact from email
+                ContactList list = GetContactsFromEmail(model.EmailAddress, act);
+                if (list.Count > 0)
+                    actContact = list[0];
+                else
+                    actContact = act.Contacts.CreateContact();
+            }
+            else
+            {
+                actContact = act.Contacts.CreateContact();
+            }
+
+            SetContactAttributes(model, actContact);
+            CreateNoteAndAttachment(model, act, actContact);
+
+            if (model.SalesRep != Constants.None)
+            {
+                CreateContactActivity(model, act, actContact);
             }
         }
 
-        public static void UpdateContact(ContactModel model, ActFramework act)
+        private static void SetContactAttributes(ContactModel model, Contact actContact)
         {
-            //getting the contact from email
-            Contact actContact = GetContactsFromEmail(model.EmailAddress, act)[0];
-
             actContact.FullName = model.FirstName + " " + model.LastName;
             actContact.Company = model.Organization;
             actContact.Fields["Contact.E-mail", false] = model.EmailAddress;
@@ -51,10 +53,11 @@ namespace LTIS.Lib.Act
             actContact.Fields["Contact.State", false] = model.State;
             actContact.Fields["Contact.ZIP Code", false] = model.Zip;
             actContact.Fields["Contact.Phone", false] = model.Phone;
-
             actContact.Update();
+        }
 
-
+        private static void CreateNoteAndAttachment(ContactModel model, ActFramework act, Contact actContact)
+        {
             if (model.Notes != "" || model.AttachmentUrl != null)
             {
 
@@ -69,9 +72,23 @@ namespace LTIS.Lib.Act
                     string attachmentUrl = HttpContext.Current.Server.MapPath("~/Data/" + model.AttachmentUrl);
                     actNote.Attachment = act.SupplementalFileManager.CreateAttachment(AttachmentMate.Note, attachmentUrl, "Attachment", false);
                 }
-                    
+
                 actNote.Update();
             }
+        }
+
+        private static void CreateContactActivity(ContactModel model, ActFramework act, Contact actContact)
+        {
+            ActivityType type = act.Activities.GetActivityType(Convert.ToInt32(model.Task));
+
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = DateTime.Now.AddMinutes(10);
+
+            ActivityTemplate template = act.Activities.CreateActivity(type, startTime, endTime, new Guid(model.SalesRep));
+            template.ActivityContacts.Add(actContact);
+            template.Update();
+
+            
         }
 
         public static ContactList GetContactsFromEmail(string email, ActFramework act)
@@ -87,6 +104,21 @@ namespace LTIS.Lib.Act
             return actContacts;
         }
 
+        public static ContactList GetUsers(ActFramework act)
+        {
+            return act.Contacts.GetContactsUsers(null);
+        }
+
+        public static Contact GetCurrentUser(ActFramework act)
+        {
+            return act.Contacts.GetMyRecord();
+        }
+
+        public static ActivityType[] GetActivityTypes(ActFramework act)
+        {
+            return act.Activities.GetActivityTypes();
+
+        }
     }
 }
 
