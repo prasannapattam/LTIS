@@ -173,6 +173,9 @@
     </Content>
     <Content Include="Content\foundation-icons.ttf" />
     <Content Include="Content\foundation-icons.woff" />
+    <None Include="Properties\PublishProfiles\Prasanna.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\durandal\activator.js" />
     <Content Include="Scripts\durandal\app.js" />
