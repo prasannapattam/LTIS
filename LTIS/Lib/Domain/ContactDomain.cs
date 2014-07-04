@@ -114,6 +114,8 @@ namespace LTIS.Lib.Domain
 
                 contact.Users = users;
                 contact.ActivityTypes = types;
+                var todoSelectItem = types.Find(t => t.Text == "To-do");
+                contact.Task = todoSelectItem != null ? todoSelectItem.Value : types[0].Value;
             }
 
             return model;

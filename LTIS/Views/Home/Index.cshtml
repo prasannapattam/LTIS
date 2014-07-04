@@ -21,7 +21,7 @@
                 <th>Create Date</th>
                 <th>Action</th>
                 <th>Sales Rep</th>
-                <th>Task</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +60,7 @@
                     @Html.DropDownListFor(m => m[index].SalesRep, Model[index].Users)
                 </td>
                 <td>
-                    @Html.DropDownListFor(m => m[index].Task, Model[index].ActivityTypes)
+                    @Html.HiddenFor(m => m[index].Task)
                 </td>
 
             </tr>
