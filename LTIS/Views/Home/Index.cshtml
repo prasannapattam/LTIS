@@ -55,12 +55,14 @@
                 <td>@Model[index].CreateDate</td>
                 <td>
                     @Html.DropDownListFor(m => m[index].Action, Model[index].ActionOptions)
+                    <input type="radio" name="action" />
                 </td>
                 <td>
                     @Html.DropDownListFor(m => m[index].SalesRep, Model[index].Users)
                 </td>
                 <td>
                     @Html.HiddenFor(m => m[index].Task)
+                    <button>Update ACT</button> 
                 </td>
 
             </tr>
@@ -72,20 +74,3 @@
         <input type="submit" value="Update ACT" />
     </div>
 }
-
-<script>
-    function loadNotesWindow(id, name, type) {
-        var notesWindow = $("#" + id);
-        if (!notesWindow.data("kendoWindow")) {
-            notesWindow.kendoWindow({
-                width: "400px",
-                height: "350px",
-                title: type + " for " + name
-            });
-        }
-
-        notesWindow.data("kendoWindow").open().center();
-
-        return false;
-    }
-</script>

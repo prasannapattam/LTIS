@@ -7,7 +7,7 @@
  * Author: John Papa and Hans Fjällemark
  * Project: https://github.com/CodeSeven/toastr
  */
-; (function (define) {
+(function (define) {
     define(['jquery'], function ($) {
         return (function () {
             var $container,
