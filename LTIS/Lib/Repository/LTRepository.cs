@@ -61,6 +61,35 @@ namespace LTIS.Lib.Repository
             }
         }
 
+        public static ContactViewModel ContactGet(int contactID)
+        {
+            using (var db = new LTISEntities())
+            {
+                var query = from contact in db.Contacts
+                            where contact.ContactID == contactID 
+                            select new ContactViewModel
+                            {
+                                ContactID = contact.ContactID,
+                                FirstName = contact.FirstName,
+                                LastName = contact.LastName,
+                                Organization = contact.Organization,
+                                EmailAddress = contact.EmailAddress,
+                                StreetAddress = contact.StreetAddress,
+                                Address2 = contact.Address2,
+                                City = contact.City,
+                                State = contact.State,
+                                Zip = contact.Zip,
+                                Phone = contact.Phone,
+                                Notes = contact.Notes,
+                                AttachmentUrl = contact.AttachmentUrl,
+                                DuplicateInd = contact.DuplicateInd,
+                                CreateDate = contact.CreateDate
+                            };
+
+                return query.First();
+            }
+        }
+
         public static void ContactDelete(int[] contactids)
         {
             string sql = "DELETE FROM Contact WHERE ContactID in (" + String.Join(",", contactids) + ")";
@@ -68,6 +97,16 @@ namespace LTIS.Lib.Repository
             using (var db = new LTISEntities())
             {
                 db.Database.ExecuteSqlCommand(sql);
+                db.SaveChanges();
+            }
+        }
+
+        public static void ContactDelete(int contactID)
+        {
+            using (var db = new LTISEntities())
+            {
+                var dbContact = from contact in db.Contacts where contact.ContactID == contactID select contact;
+                db.Contacts.Remove(dbContact.First());
                 db.SaveChanges();
             }
         }

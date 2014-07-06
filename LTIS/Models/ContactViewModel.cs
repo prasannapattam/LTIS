@@ -13,10 +13,9 @@ namespace LTIS.Models
         public DateTime CreateDate { get; set; }
 
         public List<SelectListItem> ActionOptions = new List<SelectListItem>{
-            new SelectListItem() { Value = Convert.ToString(ContactOption.Import), Text = ContactOption.Import.ToString() },
-            new SelectListItem() { Value = Convert.ToString(ContactOption.Update), Text = ContactOption.Update.ToString() },
-            new SelectListItem() { Value = Convert.ToString(ContactOption.Remove), Text = ContactOption.Remove.ToString() },
-            new SelectListItem() { Value = Convert.ToString(ContactOption.NONE), Text = ContactOption.NONE.ToString() }
+            new SelectListItem() { Text = "ADD TO DATABASE", Value = ContactOption.Import.ToString() },
+            new SelectListItem() { Text = "ADD TO EXISTING CONTACT", Value = ContactOption.Update.ToString() },
+            new SelectListItem() { Text = "DELETE INQUIRY", Value = ContactOption.Remove.ToString() }
         };
 
         public List<SelectListItem> Users { get; set; }

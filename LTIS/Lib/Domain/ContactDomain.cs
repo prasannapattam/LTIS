@@ -45,6 +45,24 @@ namespace LTIS.Lib.Domain
                 LTRepository.ContactDelete(contactids);
         }
 
+        public static void UpdateContact(ContactViewModel contact)
+        {
+            var dbContact = LTRepository.ContactGet(contact.ContactID);
+            dbContact.Action = contact.Action;
+            dbContact.SalesRep = contact.SalesRep;
+            dbContact.Task = contact.Task;
+            if (contact.Action == ContactOption.Import || contact.Action == ContactOption.Update)
+            {
+                using (ACTConnection act = new ACTConnection())
+                {
+                    ContactIntegration.CreateUpdateContact(dbContact, act.Framework);
+                }
+            }
+
+            if(contact.Action != ContactOption.NONE)
+                LTRepository.ContactDelete(contact.ContactID);
+        }
+
         public static bool ContactExists(string emailAddress)
         {
             using (ACTConnection act = new ACTConnection())
@@ -70,8 +88,8 @@ namespace LTIS.Lib.Domain
                             }).ToList();
 
                 //getting the current contact
-                ActContact current = ContactIntegration.GetCurrentUser(act.Framework);
-                users.Find(m => m.Value == current.ID.ToString()).Selected = true;
+                //ActContact current = ContactIntegration.GetCurrentUser(act.Framework);
+                //users.Find(m => m.Value == current.ID.ToString()).Selected = true;
 
                 return users;
             }
@@ -100,7 +118,8 @@ namespace LTIS.Lib.Domain
 
             //getting users
             var users = ContactDomain.GetUsers();
-            users.Add(new SelectListItem() { Text = Constants.None, Value = Constants.None });
+            users.Insert(0, new SelectListItem() { Text = "[SELECT]", Value = "" });
+            users[0].Selected = true;
 
             var types = ContactDomain.GetActivityTypes();
 
@@ -108,9 +127,16 @@ namespace LTIS.Lib.Domain
             foreach (var contact in model)
             {
                 if (contact.DuplicateInd)
+                {
                     contact.ActionOptions[1].Selected = true;
+                    contact.Action = ContactOption.Update;
+                }
                 else
+                {
                     contact.ActionOptions.RemoveAt(1);
+                    contact.ActionOptions[0].Selected = true;
+                    contact.Action = ContactOption.Import;
+                }
 
                 contact.Users = users;
                 contact.ActivityTypes = types;

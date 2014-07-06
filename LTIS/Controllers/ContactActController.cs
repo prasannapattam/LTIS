@@ -1,4 +1,5 @@
-﻿using LTIS.Lib.Shared;
+﻿using LTIS.Lib.Domain;
+using LTIS.Lib.Shared;
 using LTIS.Models;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,12 @@ namespace LTIS.Controllers
             //ProfileModel profile = PosRepository.ProfileGet(model);
             try
             {
-                ajax = new AjaxModel<string>() { Success = false, Message = Constants.ContactUpdateSuccess, Model = null };
+                ContactDomain.UpdateContact(model);
+                ajax = new AjaxModel<string>() { Success = true, Message = Constants.ContactUpdateSuccess, Model = null };
             }
             catch(Exception exp)
             {
-                ajax = new AjaxModel<string>() { Success = true, Message = Constants.ContactUpdateError + exp.Message, Model = null };
+                ajax = new AjaxModel<string>() { Success = false, Message = Constants.ContactUpdateError + exp.Message, Model = null };
             }
             return ajax;
         }
