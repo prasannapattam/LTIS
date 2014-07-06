@@ -300,6 +300,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ContactActController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -328,6 +329,7 @@
     </Compile>
     <Compile Include="Lib\Repository\LTRepository.cs" />
     <Compile Include="Lib\Shared\Constants.cs" />
+    <Compile Include="Models\AjaxModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

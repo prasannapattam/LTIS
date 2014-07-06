@@ -52,11 +52,6 @@ namespace LTIS.Controllers
                     string clientExtension = clientFileName.Substring(clientFileName.LastIndexOf('/'));
                     model.AttachmentUrl = Guid.NewGuid().ToString() + clientExtension.Replace('/', '.').Replace("jpeg", "jpg");
                     string serverFileName = fi.DirectoryName + @"\" + model.AttachmentUrl;
-
-                    FileInfo fiOld = new FileInfo(serverFileName);
-                    if (fiOld.Exists)
-                        fiOld.Delete();
-                    //if (File.Exists())
                     fi.MoveTo(serverFileName);
                 }
                 else
