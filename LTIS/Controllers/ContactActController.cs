@@ -21,6 +21,8 @@ namespace LTIS.Controllers
             {
                 ContactDomain.UpdateContact(model);
                 ajax = new AjaxModel<string>() { Success = true, Message = Constants.ContactUpdateSuccess, Model = null };
+                if (model.Action == ContactOption.Remove)
+                    ajax.Message = Constants.ContactRemoveSuccess;
             }
             catch(Exception exp)
             {

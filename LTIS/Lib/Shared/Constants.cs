@@ -11,6 +11,7 @@ namespace LTIS.Lib.Shared
 
         //messages
         public static string ContactUpdateSuccess = "Successfully updated ACT";
+        public static string ContactRemoveSuccess = "Successfully deleted inquiry";
         public static string ContactUpdateError = "Error in updating ACT<br>";
     }
 }

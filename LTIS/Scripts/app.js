@@ -23,7 +23,7 @@ function UpdateContact(id, url) {
         return;
     }
 
-    if (rep === "") {
+    if (action !== "Remove" && rep === "") {
         alert('Please select a Sales Rep to continue');
         return;
     }
