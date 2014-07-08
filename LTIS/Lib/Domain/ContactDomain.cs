@@ -118,6 +118,7 @@ namespace LTIS.Lib.Domain
 
             //getting users
             var users = ContactDomain.GetUsers();
+            users.Insert(0, new SelectListItem() { Text = "No", Value = Constants.None });
             users.Insert(0, new SelectListItem() { Text = "[SELECT]", Value = "" });
             users[0].Selected = true;
 
