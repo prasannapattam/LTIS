@@ -19,6 +19,7 @@ namespace LTIS.Controllers
             //ProfileModel profile = PosRepository.ProfileGet(model);
             try
             {
+                model.Task = Constants.Todo; //hardcoding the task to To-do
                 ContactDomain.UpdateContact(model);
                 ajax = new AjaxModel<string>() { Success = true, Message = Constants.ContactUpdateSuccess, Model = null };
                 if (model.Action == ContactOption.Remove)

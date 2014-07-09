@@ -7,11 +7,12 @@ namespace LTIS.Lib.Shared
 {
     public class Constants
     {
-        public static string None = "NONE";
+        public const string None = "NONE";
+        public const string Todo = "To-do";
 
         //messages
-        public static string ContactUpdateSuccess = "Successfully updated ACT";
-        public static string ContactRemoveSuccess = "Successfully deleted inquiry";
-        public static string ContactUpdateError = "Error in updating ACT<br>";
+        public const string ContactUpdateSuccess = "Successfully updated ACT";
+        public const string ContactRemoveSuccess = "Successfully deleted inquiry";
+        public const string ContactUpdateError = "Error in updating ACT<br>";
     }
 }
