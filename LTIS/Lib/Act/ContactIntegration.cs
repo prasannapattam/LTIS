@@ -10,6 +10,7 @@ using System.Web;
 using Act.Framework.SupplementalFiles;
 using Act.Framework.Activities;
 using LTIS.Lib.Shared;
+using Act.Framework.Users;
 
 namespace LTIS.Lib.Act
 {
@@ -38,6 +39,9 @@ namespace LTIS.Lib.Act
 
             if (model.SalesRep != Constants.None)
             {
+                //setting record manager
+                actContact.Fields["Contact.Record Manager", false] = new Guid(model.SalesRep);
+                actContact.Update();
                 CreateContactActivity(model, act, actContact);
             }
         }
@@ -87,8 +91,6 @@ namespace LTIS.Lib.Act
             ActivityTemplate template = act.Activities.CreateActivity(type, startTime, endTime, new Guid(model.SalesRep));
             template.ActivityContacts.Add(actContact);
             template.Update();
-
-            
         }
 
         public static ContactList GetContactsFromEmail(string email, ActFramework act)
@@ -104,9 +106,9 @@ namespace LTIS.Lib.Act
             return actContacts;
         }
 
-        public static ContactList GetUsers(ActFramework act)
+        public static User[] GetUsers(ActFramework act)
         {
-            return act.Contacts.GetContactsUsers(null);
+            return act.Users.ActiveUsers;
         }
 
         public static Contact GetCurrentUser(ActFramework act)

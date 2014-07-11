@@ -1,5 +1,6 @@
 ﻿using Act.Framework.Activities;
 using Act.Framework.Contacts;
+using Act.Framework.Users;
 using LTIS.Lib.Act;
 using LTIS.Lib.Repository;
 using LTIS.Lib.Shared;
@@ -59,8 +60,8 @@ namespace LTIS.Lib.Domain
                 }
             }
 
-            if(contact.Action != ContactOption.NONE)
-                LTRepository.ContactDelete(contact.ContactID);
+            //if(contact.Action != ContactOption.NONE)
+            //    LTRepository.ContactDelete(contact.ContactID);
         }
 
         public static bool ContactExists(string emailAddress)
@@ -77,14 +78,14 @@ namespace LTIS.Lib.Domain
         {
             using (ACTConnection act = new ACTConnection())
             {
-                ContactList contacts = ContactIntegration.GetUsers(act.Framework);
+                User[] actUsers = ContactIntegration.GetUsers(act.Framework);
 
-                var users = (from c in contacts
-                             orderby ((ActContact)c).FullName
+                var users = (from u in actUsers
+                             orderby u.DisplayName
                             select new SelectListItem
                             {
-                                Text = ((ActContact)c).FullName,
-                                Value = c.ID.ToString()
+                                Text = u.DisplayName,
+                                Value = u.ID.ToString()
                             }).ToList();
 
                 //getting the current contact
