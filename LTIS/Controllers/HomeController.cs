@@ -21,15 +21,15 @@ namespace LTIS.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult Index(List<ContactViewModel> contacts)
-        {
-            ViewBag.Message = "Successfully updated ACT";
+        //[HttpPost]
+        //public ActionResult Index(List<ContactViewModel> contacts)
+        //{
+        //    ViewBag.Message = "Successfully updated ACT";
 
-            ContactDomain.UpdateContacts(contacts);
+        //    ContactDomain.UpdateContacts(contacts);
 
-            var model = ContactDomain.GetUIContacts();
-            return View(model);
-        }
+        //    var model = ContactDomain.GetUIContacts();
+        //    return View(model);
+        //}
 	}
 }
