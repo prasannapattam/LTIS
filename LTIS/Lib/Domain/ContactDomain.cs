@@ -17,34 +17,33 @@ namespace LTIS.Lib.Domain
 {
     public static class ContactDomain
     {
-        public static void UpdateContacts(List<ContactViewModel> contacts)
-        {
-            //getting all the contacts
-            var dbContacts = LTRepository.ContactGetAll();
+        //public static void UpdateContacts(List<ContactViewModel> contacts)
+        //{
+        //    //getting all the contacts
+        //    var dbContacts = LTRepository.ContactGetAll();
 
-            using (ACTConnection act = new ACTConnection())
-            {
+        //    using (ACTConnection act = new ACTConnection())
+        //    {
 
-                foreach (var contact in contacts)
-                {
-                    var dbContact = dbContacts.Find(m => m.ContactID == contact.ContactID);
-                    if (dbContact != null && (contact.Action == ContactOption.Import || contact.Action == ContactOption.Update))
-                    {
-                        dbContact.Action = contact.Action;
-                        dbContact.SalesRep = contact.SalesRep;
-                        dbContact.Task = contact.Task;
-                        ContactIntegration.CreateUpdateContact(dbContact, act.Framework);
-                    }
-                }
-            }
+        //        foreach (var contact in contacts)
+        //        {
+        //            var dbContact = dbContacts.Find(m => m.ContactID == contact.ContactID);
+        //            if (dbContact != null && (contact.Action == ContactOption.Import || contact.Action == ContactOption.Update))
+        //            {
+        //                dbContact.Action = contact.Action;
+        //                dbContact.SalesRep = contact.SalesRep;
+        //                ContactIntegration.CreateUpdateContact(dbContact, act.Framework);
+        //            }
+        //        }
+        //    }
 
-            //deleting the contacts
-            int[] contactids = (from c in contacts
-                                where c.Action != ContactOption.NONE
-                                select c.ContactID).ToArray();
-            if (contactids.Length > 0)
-                LTRepository.ContactDelete(contactids);
-        }
+        //    //deleting the contacts
+        //    int[] contactids = (from c in contacts
+        //                        where c.Action != ContactOption.NONE
+        //                        select c.ContactID).ToArray();
+        //    if (contactids.Length > 0)
+        //        LTRepository.ContactDelete(contactids);
+        //}
 
         public static void UpdateContact(ContactViewModel contact)
         {
@@ -56,12 +55,21 @@ namespace LTIS.Lib.Domain
             {
                 using (ACTConnection act = new ACTConnection())
                 {
+                    //setting the default task if no task is passed
+                    if (String.IsNullOrEmpty(contact.Task))
+                    {
+                        dbContact.Task = ContactIntegration.GetActivityType(act.Framework, Constants.Todo).ActivityTypeId.ToString();
+                    }
+                    else
+                    {
+                        dbContact.Task = contact.Task;
+                    }
                     ContactIntegration.CreateUpdateContact(dbContact, act.Framework);
                 }
             }
 
-            //if(contact.Action != ContactOption.NONE)
-            //    LTRepository.ContactDelete(contact.ContactID);
+            if (contact.Action != ContactOption.NONE)
+                LTRepository.ContactDelete(contact.ContactID);
         }
 
         public static bool ContactExists(string emailAddress)

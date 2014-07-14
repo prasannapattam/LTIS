@@ -39,8 +39,10 @@ namespace LTIS.Lib.Act
 
             if (model.SalesRep != Constants.None)
             {
+                
                 //setting record manager
-                actContact.Fields["Contact.Record Manager", false] = new Guid(model.SalesRep);
+                User rep = act.Users.GetUser(new Guid(model.SalesRep));
+                actContact.SetRecordManager(rep);
                 actContact.Update();
                 CreateContactActivity(model, act, actContact);
             }
@@ -119,7 +121,14 @@ namespace LTIS.Lib.Act
         public static ActivityType[] GetActivityTypes(ActFramework act)
         {
             return act.Activities.GetActivityTypes();
+        }
 
+        public static ActivityType GetActivityType(ActFramework act, string typeName)
+        {
+            ActivityType type = act.Activities.GetActivityType(typeName);
+            if(type == null)
+                type = act.Activities.GetDefaultActivityType();
+            return type;
         }
     }
 }
