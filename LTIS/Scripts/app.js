@@ -14,6 +14,7 @@
 }
 
 function UpdateContact(id, url) {
+    
     var trrow = $("#" + id);
     var rep = $("#" + id + "-rep").val();
     var action = $("input:checked", trrow).val();
@@ -29,9 +30,10 @@ function UpdateContact(id, url) {
     }
     
     var contact = { ContactID: id, Action: action, SalesRep: rep };
-
+    $("#divLoading").show();
     $.post(url, contact)
     .done(function (data) {
+        $("#divLoading").hide();
         if (data.Success === false) {
             toastr.error(data.Message);
         }
@@ -39,7 +41,8 @@ function UpdateContact(id, url) {
             toastr.info(data.Message);
             $(trrow).remove();
         }
-     }).fail(function (e) {
+    }).fail(function (e) {
+        $("#divLoading").hide();
             var message = '';
             if (e.responseJSON.ExceptionMessage !== undefined)
                 message = e.responseJSON.ExceptionMessage;
@@ -59,5 +62,7 @@ $(function () {
 
     //toastr.info('Hi Prasanna');
     //toastr.error('Hi Prasanna');
-});
 
+    //$("#divLoading").ajaxStart(function () { $(this).show(); })
+    //               .ajaxStop(function () { $(this).hide(); });
+});
