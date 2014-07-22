@@ -16,7 +16,6 @@ namespace LTIS.Controllers
         {
             AjaxModel<string> ajax = null;
 
-            //ProfileModel profile = PosRepository.ProfileGet(model);
             try
             {
                 ContactDomain.UpdateContact(model);

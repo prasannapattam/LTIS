@@ -20,16 +20,5 @@ namespace LTIS.Controllers
             var model = ContactDomain.GetUIContacts();            
             return View(model);
         }
-
-        //[HttpPost]
-        //public ActionResult Index(List<ContactViewModel> contacts)
-        //{
-        //    ViewBag.Message = "Successfully updated ACT";
-
-        //    ContactDomain.UpdateContacts(contacts);
-
-        //    var model = ContactDomain.GetUIContacts();
-        //    return View(model);
-        //}
 	}
 }
