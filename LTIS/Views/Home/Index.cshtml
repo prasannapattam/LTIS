@@ -9,10 +9,13 @@
         Updating ACT, please wait...<img src="~/Content/BlueOpal/loading-image.gif">
     </p>
 </div>
-<div class="text-center">
+<div class="text-right">
+    <h4><a href="/APFW/Home/HomeShell.aspx" class="button tiny round">act!</a></h4>
+</div>
+<div class="text-center" >
     <h3>Contact Integration</h3>
 </div>
-<p class="success">@ViewBag.Message</p>
+    <p class="success">@ViewBag.Message</p>
     <table class="table-display">
         <thead>
             <tr>
@@ -41,51 +44,51 @@
                     <td>@Model[index].Phone<br>@Model[index].EmailAddress</td>
                     <td>
                         @Model[index].StreetAddress<br>
-                    @Model[index].City<br>
-                    @Model[index].State @Model[index].Zip
-                </td>
-                <td>
-                    <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Notes')">Notes</a>
-                    <div id="@("notes" + Model[index].ContactID)" style="display: none; white-space: pre;">@Model[index].Notes</div>
-                </td>
-                <td>
-                    @if (Model[index].AttachmentUrl != null)
-                    {
-                        <a href="#" onclick="return loadNotesWindow('@("notesimage" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Attachment')">Image</a>
-                        <div id="@("notesimage" + Model[index].ContactID)" style="display: none; white-space: pre;">
-                            <img src="@Url.Content("~/Data/" + Model[index].AttachmentUrl)" />
-                        </div>
-                    }
-                </td>
-                <td>@Model[index].CreateDate</td>
-                <td>@(Model[index].DuplicateInd ? "Yes" : "No")</td>
-                <td nowrap="nowrap">
-                    <ul class="no-bullet">
-                        @foreach (var opt in Model[index].ActionOptions)
+                        @Model[index].City<br>
+                        @Model[index].State @Model[index].Zip
+                    </td>
+                    <td>
+                        <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Notes')">Notes</a>
+                        <div id="@("notes" + Model[index].ContactID)" style="display: none; white-space: pre;">@Model[index].Notes</div>
+                    </td>
+                    <td>
+                        @if (Model[index].AttachmentUrl != null)
                         {
-                            string optId = Model[index].ContactID.ToString() + "-action-" + opt.Value;
-                            object optattributes = new { id = optId, @class="tight" };
-
-                            <li>
-                                @Html.RadioButtonFor(m => m[index].Action, opt.Value, optattributes)
-                                <label for="@optId" class="radio-margin">@opt.Text</label>
-                            </li>
+                            <a href="#" onclick="return loadNotesWindow('@("notesimage" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Attachment')">Image</a>
+                            <div id="@("notesimage" + Model[index].ContactID)" style="display: none; white-space: pre;">
+                                <img src="@Url.Content("~/Data/" + Model[index].AttachmentUrl)" />
+                            </div>
                         }
-                    </ul>
+                    </td>
+                    <td>@Model[index].CreateDate</td>
+                    <td>@(Model[index].DuplicateInd ? "Yes" : "No")</td>
+                    <td nowrap="nowrap">
+                        <ul class="no-bullet">
+                            @foreach (var opt in Model[index].ActionOptions)
+                            {
+                                string optId = Model[index].ContactID.ToString() + "-action-" + opt.Value;
+                                object optattributes = new { id = optId, @class = "tight" };
 
-                </td>
-                <td>
-                    @{
-                        string selectid = Model[index].ContactID.ToString() + "-rep";
-                        object selectattributes = new { id = selectid };
-                    }
-                    @Html.DropDownListFor(m => m[index].SalesRep, Model[index].Users, selectattributes)
-                </td>
-                <td>
-                    @Html.HiddenFor(m => m[index].Task)
-                    <a href="#" class="button tiny round" onclick="UpdateContact(@Model[index].ContactID.ToString(), '@Url.Content("~/api/contactact")')">Update ACT</a>
-                </td>
-            </tr>
+                                <li>
+                                    @Html.RadioButtonFor(m => m[index].Action, opt.Value, optattributes)
+                                    <label for="@optId" class="radio-margin">@opt.Text</label>
+                                </li>
+                            }
+                        </ul>
+
+                    </td>
+                    <td>
+                        @{
+                            string selectid = Model[index].ContactID.ToString() + "-rep";
+                            object selectattributes = new { id = selectid };
+                        }
+                        @Html.DropDownListFor(m => m[index].SalesRep, Model[index].Users, selectattributes)
+                    </td>
+                    <td>
+                        @Html.HiddenFor(m => m[index].Task)
+                        <a href="#" class="button tiny round" onclick="UpdateContact(@Model[index].ContactID.ToString(), '@Url.Content("~/api/contactact")')">Update ACT</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
