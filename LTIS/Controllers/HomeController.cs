@@ -20,5 +20,13 @@ namespace LTIS.Controllers
             var model = ContactDomain.GetUIContacts();            
             return View(model);
         }
+
+        public ActionResult Act()
+        {
+            ViewBag.Message = "";
+            //getting all contacts
+            var model = ContactDomain.GetUIContacts();
+            return View(model);
+        }
 	}
 }

@@ -124,6 +124,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\app-act.css" />
     <Content Include="Content\app.css" />
     <Content Include="Content\BlueOpal\editor.png" />
     <Content Include="Content\BlueOpal\imagebrowser.png" />
@@ -140,14 +141,10 @@
     <Content Include="Content\foundation-icons.css" />
     <Content Include="Content\foundation-icons.svg" />
     <Content Include="Content\foundation.css" />
-    <Content Include="Content\Images\eye-background.jpg" />
     <Content Include="Content\Images\line-horizontal.gif" />
     <Content Include="Content\Images\line-vertical.gif" />
-    <Content Include="Content\Images\loading - old.gif" />
     <Content Include="Content\Images\loading.gif" />
-    <Content Include="Content\Images\logo.gif" />
     <Content Include="Content\Images\texture.png" />
-    <Content Include="Content\Images\WordImage.jpg" />
     <Content Include="Content\jquery.textcomplete.css" />
     <Content Include="Content\kendo.blueopal.min.css" />
     <Content Include="Content\kendo.common.min.css" />
@@ -177,6 +174,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\app-act.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\durandal\activator.js" />
     <Content Include="Scripts\durandal\app.js" />
@@ -341,6 +339,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Act.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
