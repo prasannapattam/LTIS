@@ -16,10 +16,10 @@ namespace LTIS.Lib.HttpModules
         public void OnBeginRequest(Object sender, EventArgs e)
         {
             HttpApplication httpApp = (HttpApplication)sender;
-            if (httpApp.Request.UrlReferrer == null || httpApp.Request.Url.Host != httpApp.Request.UrlReferrer.Host)
-            {
-                httpApp.Response.Redirect("/APFW/Home/HomeShell.aspx");
-            }            
+            //if (httpApp.Request.UrlReferrer == null || httpApp.Request.Url.Host != httpApp.Request.UrlReferrer.Host)
+            //{
+            //    httpApp.Response.Redirect("/APFW/Home/HomeShell.aspx");
+            //}            
         }
         
         public void Dispose() 

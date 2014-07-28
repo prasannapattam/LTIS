@@ -144,6 +144,7 @@
     <Content Include="Content\Images\line-horizontal.gif" />
     <Content Include="Content\Images\line-vertical.gif" />
     <Content Include="Content\Images\loading.gif" />
+    <Content Include="Content\Images\LTIcon.ico" />
     <Content Include="Content\Images\texture.png" />
     <Content Include="Content\jquery.textcomplete.css" />
     <Content Include="Content\kendo.blueopal.min.css" />
@@ -155,6 +156,14 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>LT.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\adduser16.gif" />
+    <Content Include="Images\assignuser16.gif" />
+    <Content Include="Images\back16.gif" />
+    <Content Include="Images\delete16.gif" />
+    <Content Include="Images\header_shadow.jpg" />
+    <Content Include="Images\transdot.gif" />
+    <Content Include="Images\transdot16.gif" />
+    <Content Include="Images\update16.gif" />
     <Content Include="Lib\Repository\LT.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LT.edmx</DependentUpon>
@@ -305,8 +314,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Lib\Act\ACTConnection.cs" />
+    <Compile Include="Lib\Act\ActivityIntegration.cs" />
     <Compile Include="Lib\Act\ContactIntegration.cs" />
+    <Compile Include="Lib\Domain\ActivityDomain.cs" />
     <Compile Include="Lib\Domain\ContactDomain.cs" />
+    <Compile Include="Lib\HttpModules\MonitorModule.cs" />
     <Compile Include="Lib\Repository\Contact.cs">
       <DependentUpon>LT.tt</DependentUpon>
     </Compile>
