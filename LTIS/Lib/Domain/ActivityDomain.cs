@@ -10,22 +10,30 @@ namespace LTIS.Lib.Domain
 {
     public class ActivityDomain
     {
-        public static List<SelectListItem> GetActivityTypes()
+        public static List<SelectListItem> GetActivities(Guid OrganizeUserId)
         {
             using (ACTConnection act = new ACTConnection())
             {
-                ActivityType[] activityTypes = ContactIntegration.GetActivityTypes(act.Framework);
+                
+                ActivityList activities = ActivityIntegration.GetActivities(act.Framework, OrganizeUserId);
 
-                var types = (from t in activityTypes
-                             select new SelectListItem
-                             {
-                                 Text = t.Name,
-                                 Value = t.ActivityTypeId.ToString()
-                             }).ToList();
+                List<SelectListItem> items = new List<SelectListItem>();
 
-                return types;
+                foreach(Activity activity in activities)
+                {
+                    items.Add(new SelectListItem() { Text = activity.ScheduledWith, Value = activity.ActivityId.ToString() });
+                }
+
+                return items;
             }
         }
-
+        public static void ClearActivity(Guid activityID)
+        {
+            using (ACTConnection act = new ACTConnection())
+            {
+                ActivityIntegration.ClearActivity(act.Framework, activityID);
+            }
+        }
     }
+
 }

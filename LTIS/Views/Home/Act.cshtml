@@ -4,16 +4,17 @@
 }
 
 <style type="text/css">
-    .style1 {
+    .lt-table {
         border: 1px solid #000000;
+        width: 100%;
     }
 
-    .style2 {
+    .lt-thead {
         color: #FFFFFF;
         background-color: #0099FF;
     }
 
-    .style3 {
+    .lt-td {
         background-color: #EEEEEF;
     }
     .no-bullet {
@@ -21,10 +22,7 @@
         padding: 0;
         margin-bottom: 2px;
     }
-    .style4 {
-        background-color: #CCCCCC;
-    }
-    .style5 {
+    .lt-th {
         background-color: #CCCCCC;
         color: #000000;
         font-size:11px;
@@ -33,21 +31,28 @@
 
 </style>
 
+<div id="LTcontantLoading" style="margin: 0px; padding: 0px; right: 0px;
+            top: 0px; width: 100%; height: 100%; background-color: #666666; z-index: 30001;
+            opacity: .8; filter: alpha(opacity=70);display:none">
+    <p style="position: absolute; top: 30%; left: 45%; color: White;">
+        please wait<br /><img src="/LTIS/Content/BlueOpal/loading-image.gif">
+    </p>
+</div>
 
-<table class="style1">
-    <thead class="style2">
+<table class="lt-table">
+    <thead class="lt-thead">
         <tr>
-            <th style="height: 26px" class="style5">Name</th>
-            <th style="height: 26px" class="style5">Organization</th>
-            <th style="height: 26px" class="style5">Phone</th>
-            <th style="height: 26px" class="style5">Email</th>
-            <th style="height: 26px" class="style5">Notes</th>
-            <th style="height: 26px" class="style5">Image</th>
-            <th style="height: 26px" class="style5">Inquiry Date</th>
-            <th style="height: 26px" class="style5">Exists?</th>
-            <th style="height: 26px" class="style5">Action</th>
-            <th style="height: 26px" class="style5">Sales Rep?</th>
-            <th style="height: 26px" class="style5">Update</th>
+            <th class="lt-th">Name</th>
+            <th class="lt-th">Organization</th>
+            <th class="lt-th">Phone</th>
+            <th class="lt-th">Email</th>
+            <th class="lt-th">Notes</th>
+            <th class="lt-th">Image</th>
+            <th class="lt-th">Inquiry Date</th>
+            <th class="lt-th">Exists?</th>
+            <th class="lt-th">Action</th>
+            <th class="lt-th">Sales Rep?</th>
+            <th class="lt-th">Update</th>
 
         </tr>
     </thead>
@@ -55,16 +60,16 @@
         @for (int index = 0; index < Model.Count; index++)
         {
             <tr id="@Model[index].ContactID">
-                <td class="style3">
+                <td class="lt-td">
                     @Html.HiddenFor(m => m[index].ContactID)
                     @(Model[index].FirstName + " " + Model[index].LastName)
                 </td>
-                <td class="style3">@Model[index].Organization</td>
-                <td class="style3">@Model[index].Phone<br></td>
-                <td class="style3">
+                <td class="lt-td">@Model[index].Organization</td>
+                <td class="lt-td">@Model[index].Phone<br></td>
+                <td class="lt-td">
                     @Model[index].EmailAddress
                 </td>
-                <td class="style3">
+                <td class="lt-td">
                     <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Notes')">Notes</a>
                     <div id="@("notes" + Model[index].ContactID)" style="display: none;">
                         <div style="white-space: pre;">
@@ -72,7 +77,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="style3">
+                <td class="lt-td">
                     @if (Model[index].AttachmentUrl != null)
                     {
                         <a href="#" onclick="return loadNotesWindow('@("notesimage" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Attachment')">Image</a>
@@ -83,9 +88,9 @@
                         </div>
                     }
                 </td>
-                <td class="style3">@Model[index].CreateDate</td>
-                <td class="style3">@(Model[index].DuplicateInd ? "Yes" : "No")</td>
-                <td nowrap="nowrap" class="style3">
+                <td class="lt-td">@Model[index].CreateDate</td>
+                <td class="lt-td">@(Model[index].DuplicateInd ? "Yes" : "No")</td>
+                <td nowrap="nowrap" class="lt-td">
                     <ul class="no-bullet">
                         @foreach (var opt in Model[index].ActionOptions)
                         {
@@ -100,16 +105,16 @@
                     </ul>
 
                 </td>
-                <td class="style3">
+                <td class="lt-td">
                     @{
                         string selectid = Model[index].ContactID.ToString() + "-rep";
                         object selectattributes = new { id = selectid };
                     }
                     @Html.DropDownListFor(m => m[index].SalesRep, Model[index].Users, selectattributes)
                 </td>
-                <td class="style3">
+                <td class="lt-td">
                     @Html.HiddenFor(m => m[index].Task)
-                    <a href="#" class="button tiny round" onclick="UpdateContact(@Model[index].ContactID.ToString(), '@Url.Content("~/api/contactact")')">Update</a> 
+                    <a href="#" class="button tiny round" onclick="UpdateLTContact(@Model[index].ContactID.ToString(), '@Url.Content("~/api/contactact")')">Update</a> 
                     @*<a href="#">
                         <img src="/ltis/images/update16.gif" alt="Update ACT" title="Update ACT" border="0">
                     </a>*@
@@ -119,3 +124,70 @@
     </tbody>
 </table>
 <br />
+<br />
+<br />
+<br />
+<br />
+<script>
+    function loadNotesWindow(id, name, type) {
+        var newWindow = window.open("", "newWindow", "width=450, height=400;resizable=yes");
+        newWindow.document.write($("#" + id).html());
+        newWindow.focus();
+        return false;
+    }
+
+    function UpdateLTContact(id, url) {
+
+        var trrow = $("#" + id);
+        var rep = $("#" + id + "-rep").val();
+        var action = $("input:checked", trrow).val();
+
+        if (action === undefined) {
+            alert('Action is needed, please select an action');
+            return;
+        }
+
+        if (action !== "Remove" && rep === "") {
+            alert('Please select a Sales Rep to continue');
+            return;
+        }
+
+        var contact = { ContactID: id, Action: action, SalesRep: rep };
+        $("#LTcontantLoading").show();
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: contact,
+            success: function (data) {
+                $("#LTcontantLoading").hide();
+                data = JSON.parse(data);
+                if (data.Success === false) {
+                    //toastr.error(data.Message);
+                    alert(data.Message);
+                }
+                else {
+                    alert(data.Message);
+                    //toastr.info(data.Message);
+                    $(trrow).remove();
+                    loadLTTasks();
+                }
+            },
+            error: function (e) {
+                $("#LTcontantLoading").hide();
+                data = JSON.parse(data);
+                var message = '';
+                if (e.responseJSON.ExceptionMessage !== undefined)
+                    message = e.responseJSON.ExceptionMessage;
+                else
+                    message = e.responseJSON.Message;
+                //toastr.error(message);
+                alert(message);
+            }
+        });
+
+        return false;
+    }
+
+
+</script>

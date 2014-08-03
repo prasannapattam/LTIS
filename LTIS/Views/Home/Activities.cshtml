@@ -1,0 +1,137 @@
+﻿@model List<SelectListItem>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Activities</title>
+    <script language="javascript">
+        ///////////////////////////////////////
+        function UpdateUnfinishedTasks() {
+            var userid = $("#hdnLTIS_ACTUSERID").val();
+            var url = '@Url.Action("GetActivitiesCount", "Home")?id=' + userid;
+            $.ajax({
+                type: "POST",
+                url: url,                
+                success: function (data) {
+                    $("#spnCount").text("YOU HAVE " + data + " UNFINISHED TASKS");
+                },
+                error: function (e) {
+                    alert("Status: " + e.status + " StatusText: " + e.statusText);
+                }
+            });
+        //    $.post(url)
+        //.done(function (data) {
+        //    $("#spnCount").text("YOU HAVE " + data + " UNFINISHED TASKS");
+        //}).fail(function (e) {
+        //    alert("Status: " + e.status + " StatusText: " + e.statusText);
+        //});
+        }
+        ///////////////////////////////////////
+        $(document).ready(function () {
+            UpdateUnfinishedTasks();
+        });
+        ///////////////////////////////////////
+        function ClearActivity(activityID, chkBxControl) {
+            var activities = { ActivityID: activityID, ActivityCount: 0 };
+            var url = '@Url.Content("~/api/activitiesact")';
+
+            $("#divLoadingActivities").show();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: activities,
+                success: function (data) {
+                    $("#divLoadingActivities").hide();                    
+                    var model = JSON.parse(data);                    
+                    if (model.Success === true) {
+                        $("#tr_" + model.Model).remove();
+                        UpdateUnfinishedTasks();
+                    }
+                },
+                error: function (e) {
+                    $("#divLoadingActivities").hide();
+                    alert("Status: " + e.status + " StatusText: " + e.statusText);
+                }
+            });
+
+            //    $.post(url, activities)
+            //.done(function (data) {
+            //    debugger;
+            //    $("#divLoadingActivities").hide();
+            //    if (data.Success === true) {
+            //        var model = JSON.parse(data.Model);                
+            //        $("#tr_" + model.ActivityID).remove();
+            //        UpdateUnfinishedTasks();
+            //    }
+            //    else {
+
+            //    }
+            //}).fail(function (e) {
+            //    debugger;
+            //    $("#divLoadingActivities").hide();
+            //    var message = '';
+            //    if (e.responseJSON.ExceptionMessage !== undefined)
+            //        message = e.responseJSON.ExceptionMessage;
+            //    else
+            //        message = e.responseJSON.Message;
+            //});
+        }
+        ///////////////////////////////////////
+
+</script>
+    <style type="text/css">
+
+        .table-display th, .table-display td {
+            border: 0px solid white;
+        }
+
+        .table-display {            
+            border: 0px solid black;
+            border-right: 0px solid black;
+        }
+
+    </style>
+</head>
+<body>
+    <h3>TASKS</h3>
+    <div id="divLoadingActivities" style="margin: 0px; padding: 0px; right: 0px;
+            top: 0px; width: 100%; height: 100%; background-color: #666666; z-index: 30001;
+            opacity: .8; filter: alpha(opacity=70);display:none">
+        <p style="position: absolute; top: 30%; left: 45%; color: White;">
+            please wait<br /><img src="/LTIS/Content/BlueOpal/loading-image.gif">
+        </p>
+    </div>
+    <div>
+        <span id="spnCount1" style="color: red; font-size: 8pt; font-weight: bold; text-decoration: underline;"></span>
+    </div>
+
+    <table class="table-display">
+        @*<thead>
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+            </tr>
+        </thead>*@
+        <tbody>
+            @for (int index = 0; index < Model.Count; index++)
+            {
+                <tr id="@("tr_" + Model[index].Value)">
+                    <td>
+                        <input type="checkbox" id="@("chkBx_" + Model[index].Value)" name="@("chkBx_" + Model[index].Value)" onclick="@("ClearActivity('" + Model[index].Value + "', this)")" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => Model[index].Text)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="hidden" id="hdnLTIS_ACTUSERID" value="@ViewData["LTIS_ACTUSERID"]">
+        
+</body>
+</html>

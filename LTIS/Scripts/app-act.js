@@ -57,7 +57,4 @@ function UpdateContact(id, url) {
     return false;
 }
 
-$(function () {
-    toastr.options.positionClass = 'toast-bottom-right';
-    toastr.options.backgroundpositionClass = 'toast-bottom-right';
-});
+
