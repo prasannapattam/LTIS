@@ -73,7 +73,9 @@
                     <a href="#" onclick="return loadNotesWindow('@("notes" + Model[index].ContactID)', '@(Model[index].FirstName + " " + Model[index].LastName)', 'Notes')">Notes</a>
                     <div id="@("notes" + Model[index].ContactID)" style="display: none;">
                         <div style="white-space: pre;">
-                            @Model[index].Notes
+                            <pre>
+                                @Model[index].Notes
+                            </pre>
                         </div>
                     </div>
                 </td>
@@ -130,7 +132,7 @@
 <br />
 <script>
     function loadNotesWindow(id, name, type) {
-        var newWindow = window.open("", "newWindow", "width=450, height=400;resizable=yes");
+        var newWindow = window.open("", "newWindow", "width=450, height=400,resizable=1,scrollbars=1");
         newWindow.document.write($("#" + id).html());
         newWindow.focus();
         return false;
