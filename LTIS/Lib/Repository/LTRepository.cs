@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace LTIS.Lib.Repository
@@ -108,6 +109,15 @@ namespace LTIS.Lib.Repository
                 var dbContact = from contact in db.Contacts where contact.ContactID == contactID select contact;
                 db.Contacts.Remove(dbContact.First());
                 db.SaveChanges();
+            }
+        }
+
+        public static async Task<int> ContactCount()
+        {
+            using (var db = new LTISEntities())
+            {
+                var dbContact = from contact in db.Contacts select contact.ContactID;
+                return dbContact.Count();
             }
         }
     }

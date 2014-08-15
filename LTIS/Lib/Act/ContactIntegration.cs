@@ -44,7 +44,7 @@ namespace LTIS.Lib.Act
                 User rep = act.Users.GetUser(new Guid(model.SalesRep));
                 actContact.SetRecordManager(rep);
                 actContact.Update();
-                CreateContactActivity(model, act, actContact);
+                //CreateContactActivity(model, act, actContact);
             }
         }
 
