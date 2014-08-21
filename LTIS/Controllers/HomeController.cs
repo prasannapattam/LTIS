@@ -15,6 +15,7 @@ namespace LTIS.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
+            //this action is not used. Instead of this LTISAct solution is used.
             return new HttpNotFoundResult();
 
             ViewBag.Message = "";
