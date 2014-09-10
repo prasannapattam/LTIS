@@ -56,7 +56,7 @@
 
         </tr>
     </thead>
-    <tbody>
+    <tbody id="tbList">
         @for (int index = 0; index < Model.Count; index++)
         {
             <tr id="@Model[index].ContactID">
@@ -126,10 +126,17 @@
     </tbody>
 </table>
 <br />
+<center>
+    <a href="#" class="button tiny round" onclick="return UpdateAllLTContacts('@Url.Content("~/api/contactactall")')">
+        <img src="~/images/Add-All-Now-ACT-Button.jpg" />
+    </a>
+
+</center>
 <br />
 <br />
 <br />
 <br />
+
 <script>
     function loadNotesWindow(id, name, type) {
         var newWindow = window.open("", "newWindow", "width=450, height=400,resizable=1,scrollbars=1");
@@ -188,6 +195,43 @@
                 alert(message);
             }
         });
+
+        return false;
+    }
+
+    function UpdateAllLTContacts(url) {
+        if(confirm('Are you sure you want to add all the inquires to the database')){
+            $("#LTcontantLoading").show();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {},
+                success: function (data) {
+                    $("#LTcontantLoading").hide();
+                    data = JSON.parse(data);
+                    if (data.Success === false) {
+                        alert(data.Message);
+                    }
+                    else {
+                        $("#tbList").hide();
+                        alert(data.Message);
+                        //loadLTTasks();
+                        getLTCount();
+                    }
+                },
+                error: function (e) {
+                    $("#LTcontantLoading").hide();
+                    data = JSON.parse(data);
+                    var message = '';
+                    if (e.responseJSON.ExceptionMessage !== undefined)
+                        message = e.responseJSON.ExceptionMessage;
+                    else
+                        message = e.responseJSON.Message;
+                    alert(message);
+                }
+            });
+        }
 
         return false;
     }

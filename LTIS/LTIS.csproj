@@ -156,6 +156,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>LT.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\Add-All-Now-ACT-Button.jpg" />
     <Content Include="Images\adduser16.gif" />
     <Content Include="Images\assignuser16.gif" />
     <Content Include="Images\back16.gif" />
@@ -309,6 +310,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ActivitiesActController.cs" />
+    <Compile Include="Controllers\ContactActAllController.cs" />
     <Compile Include="Controllers\ContactActController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ContactCountController.cs" />

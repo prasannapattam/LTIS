@@ -17,33 +17,35 @@ namespace LTIS.Lib.Domain
 {
     public static class ContactDomain
     {
-        //public static void UpdateContacts(List<ContactViewModel> contacts)
-        //{
-        //    //getting all the contacts
-        //    var dbContacts = LTRepository.ContactGetAll();
+        public static void UpdateContacts()
+        {
+            //getting all the contacts
+            var dbContacts = LTRepository.ContactGetAll();
 
-        //    using (ACTConnection act = new ACTConnection())
-        //    {
+            using (ACTConnection act = new ACTConnection())
+            {
 
-        //        foreach (var contact in contacts)
-        //        {
-        //            var dbContact = dbContacts.Find(m => m.ContactID == contact.ContactID);
-        //            if (dbContact != null && (contact.Action == ContactOption.Import || contact.Action == ContactOption.Update))
-        //            {
-        //                dbContact.Action = contact.Action;
-        //                dbContact.SalesRep = contact.SalesRep;
-        //                ContactIntegration.CreateUpdateContact(dbContact, act.Framework);
-        //            }
-        //        }
-        //    }
+                var task = ContactIntegration.GetActivityType(act.Framework, Constants.Todo).ActivityTypeId.ToString();
+                User rep = act.Framework.Users.GetUser(Constants.UnassignedUser);
+                string salesRep = Constants.None;
+                if (rep != null)
+                    salesRep = rep.ID.ToString();
 
-        //    //deleting the contacts
-        //    int[] contactids = (from c in contacts
-        //                        where c.Action != ContactOption.NONE
-        //                        select c.ContactID).ToArray();
-        //    if (contactids.Length > 0)
-        //        LTRepository.ContactDelete(contactids);
-        //}
+                foreach (var dbContact in dbContacts)
+                {
+                    dbContact.Action = dbContact.DuplicateInd ? ContactOption.Update : ContactOption.Import;
+                    dbContact.SalesRep = salesRep;
+                    dbContact.Task = task;
+                    ContactIntegration.CreateUpdateContact(dbContact, act.Framework);
+                }
+            }
+
+            //deleting the contacts
+            int[] contactids = (from c in dbContacts
+                                select c.ContactID).ToArray();
+            if (contactids.Length > 0)
+                LTRepository.ContactDelete(contactids);
+        }
 
         public static void UpdateContact(ContactViewModel contact)
         {
